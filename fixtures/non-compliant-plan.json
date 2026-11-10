@@ -1,0 +1,7 @@
+{
+  "prNumber": 412,
+  "serviceTier": "Tier-1-Critical",
+  "publicNetworkAccess": "Enabled",
+  "zoneRedundant": false,
+  "expectedGateResult": "BLOCK_PR_MERGE_ARB_VIOLATION"
+}

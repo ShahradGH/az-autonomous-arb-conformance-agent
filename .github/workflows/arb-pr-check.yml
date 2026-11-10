@@ -1,0 +1,9 @@
+name: ARB Conformance Check
+on: [push, pull_request]
+jobs:
+  pester:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: pwsh
+        run: Invoke-Pester -Path ./tests/ArbConformance.Tests.ps1 -Output Detailed

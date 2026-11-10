@@ -1,0 +1,14 @@
+{
+  "rules": [
+    {
+      "id": "ARB-NET-01",
+      "requirePrivateEndpoint": true,
+      "denyPublicNetworkAccess": true
+    },
+    {
+      "id": "ARB-RES-02",
+      "requireAvailabilityZones": true,
+      "tier1MinRegions": 2
+    }
+  ]
+}

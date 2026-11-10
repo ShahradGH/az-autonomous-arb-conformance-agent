@@ -1,0 +1,8 @@
+# PowerShell & Azure Tooling
+*.log
+*.tmp
+TestResult.xml
+testResults*.xml
+.vscode/
+.DS_Store
+*.bak
