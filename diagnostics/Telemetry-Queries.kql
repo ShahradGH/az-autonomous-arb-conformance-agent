@@ -1,0 +1,6 @@
+// Track Autonomous ARB pull request vetoes across repositories and WAF rules
+ArbConformanceAudit_CL
+| where TimeGenerated > ago(30d)
+| where GateDecision_s == "VETO_NON_COMPLIANT_BICEP"
+| summarize TotalBlocks = count(), DistinctPRs = dcount(PullRequestId_s) by RuleId_s, ResourceType_s, Repository_s
+| order by TotalBlocks desc
