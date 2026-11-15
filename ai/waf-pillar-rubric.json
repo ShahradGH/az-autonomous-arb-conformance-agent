@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "2026.11.1",
+  "framework": "Azure Well-Architected Framework (WAF)",
+  "minimumPassingScore": 80,
+  "abstentionConfidenceThreshold": 0.75,
+  "pillars": {
+    "Security": {
+      "weight": 0.30,
+      "controls": [
+        {
+          "controlId": "WAF-SEC-01",
+          "name": "Zero Public Network Exposure on Stateful PaaS",
+          "severity": "CRITICAL",
+          "penalty": 30,
+          "remediationDiff": "Set properties.publicNetworkAccess = 'Disabled' and bind Private Endpoint in private-endpoints subnet.",
+          "wafJustification": "Eliminates internet-routable attack surface and enforces Private Link data exfiltration boundaries."
+        },
+        {
+          "controlId": "WAF-SEC-02",
+          "name": "Minimum TLS 1.2 / 1.3 Enforcement",
+          "severity": "HIGH",
+          "penalty": 20,
+          "remediationDiff": "Set properties.minimumTlsVersion = 'TLS1_2' (or '1.3' where supported).",
+          "wafJustification": "Prevents downgrade attacks against deprecated TLS 1.0/1.1 ciphers."
+        },
+        {
+          "controlId": "WAF-SEC-03",
+          "name": "Managed Identity Over Static Credentials",
+          "severity": "CRITICAL",
+          "penalty": 25,
+          "remediationDiff": "Set identity.type = 'UserAssigned' and remove connection-string / SAS key references.",
+          "wafJustification": "Eliminates static secret sprawl and enables Entra ID token-based RBAC."
+        }
+      ]
+    },
+    "Reliability": {
+      "weight": 0.30,
+      "controls": [
+        {
+          "controlId": "WAF-REL-01",
+          "name": "Availability Zones for Tier-1 Critical Workloads",
+          "severity": "HIGH",
+          "penalty": 25,
+          "remediationDiff": "Set properties.zoneRedundant = true across 3 Availability Zones.",
+          "wafJustification": "Protects Tier-1 workloads against single-datacentre power or cooling failures."
+        },
+        {
+          "controlId": "WAF-REL-02",
+          "name": "Multi-Region Active-Passive Pairing for Tier-1",
+          "severity": "HIGH",
+          "penalty": 20,
+          "remediationDiff": "Configure secondaryPairedRegion (e.g. UK South -> UK West) with geo-replicated state.",
+          "wafJustification": "Meets RPO <= 15m and RTO <= 60m during regional control-plane outages."
+        }
+      ]
+    },
+    "OperationalExcellence": {
+      "weight": 0.20,
+      "controls": [
+        {
+          "controlId": "WAF-OPS-01",
+          "name": "Mandatory Governance & FinOps Tagging",
+          "severity": "MEDIUM",
+          "penalty": 10,
+          "remediationDiff": "Add tags.CostCentre, tags.DataClassification, and tags.OwnerTeam.",
+          "wafJustification": "Enables automated chargeback, incident routing, and data-classification policy scoping."
+        }
+      ]
+    },
+    "CostOptimization": {
+      "weight": 0.10,
+      "controls": [
+        {
+          "controlId": "WAF-COST-01",
+          "name": "SKU Right-Sizing & Non-Prod Auto-Shutdown",
+          "severity": "LOW",
+          "penalty": 5,
+          "remediationDiff": "Attach auto-scale bounds or non-prod schedule metadata.",
+          "wafJustification": "Prevents idle over-provisioning in non-production environments."
+        }
+      ]
+    },
+    "PerformanceEfficiency": {
+      "weight": 0.10,
+      "controls": [
+        {
+          "controlId": "WAF-PERF-01",
+          "name": "Regional Co-Location of Compute and Stateful Storage",
+          "severity": "MEDIUM",
+          "penalty": 10,
+          "remediationDiff": "Align compute and storage within the same primary Azure region.",
+          "wafJustification": "Avoids cross-region egress charges and inter-region RTT latency spikes."
+        }
+      ]
+    }
+  }
+}

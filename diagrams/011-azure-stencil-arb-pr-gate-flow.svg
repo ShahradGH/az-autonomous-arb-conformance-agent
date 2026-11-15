@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" font-family="Segoe UI, Inter, Arial, sans-serif">
+  <defs>
+    <marker id="pBlue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#38bdf8"/></marker>
+    <marker id="pGreen" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#34d399"/></marker>
+    <marker id="pRed" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#f87171"/></marker>
+    <marker id="pAmber" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,1 L9,5 L0,9 Z" fill="#fbbf24"/></marker>
+  </defs>
+  <rect width="1920" height="1080" fill="#0a1128"/>
+  <text x="64" y="64" fill="#f8fafc" font-size="32" font-weight="700">ARB Pull Request Gate Sequence: WAF Critique, Pre-Flight &amp; SHA-256 Exemption</text>
+  <text x="64" y="96" fill="#94a3b8" font-size="18">Shift-Left Architecture Enforcement with Cryptographic Teams Sign-Off</text>
+
+  <g stroke="#334155" stroke-width="2" stroke-dasharray="8 6">
+    <line x1="170" y1="205" x2="170" y2="995"/>
+    <line x1="500" y1="205" x2="500" y2="995"/>
+    <line x1="850" y1="205" x2="850" y2="995"/>
+    <line x1="1200" y1="205" x2="1200" y2="995"/>
+    <line x1="1540" y1="205" x2="1540" y2="995"/>
+    <line x1="1790" y1="205" x2="1790" y2="995"/>
+  </g>
+
+  <rect x="70" y="135" width="200" height="68" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+  <text x="170" y="175" text-anchor="middle" fill="#f8fafc" font-size="16" font-weight="700">Engineer PR</text>
+
+  <rect x="385" y="135" width="230" height="68" rx="8" fill="#1e293b" stroke="#fbbf24" stroke-width="2"/>
+  <text x="500" y="166" text-anchor="middle" fill="#f8fafc" font-size="16" font-weight="700">WAF Critique</text>
+  <text x="500" y="188" text-anchor="middle" fill="#cbd5e1" font-size="13">PowerShell 7.4</text>
+
+  <rect x="735" y="135" width="230" height="68" rx="8" fill="#1e293b" stroke="#a78bfa" stroke-width="2"/>
+  <text x="850" y="166" text-anchor="middle" fill="#f8fafc" font-size="16" font-weight="700">Azure AI Foundry</text>
+  <text x="850" y="188" text-anchor="middle" fill="#cbd5e1" font-size="13">JSON Co-Worker</text>
+
+  <rect x="1085" y="135" width="230" height="68" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="2"/>
+  <text x="1200" y="166" text-anchor="middle" fill="#f8fafc" font-size="16" font-weight="700">Resource Graph</text>
+  <text x="1200" y="188" text-anchor="middle" fill="#cbd5e1" font-size="13">&amp; Policy Insights</text>
+
+  <rect x="1425" y="135" width="230" height="68" rx="8" fill="#1e293b" stroke="#818cf8" stroke-width="2"/>
+  <text x="1540" y="166" text-anchor="middle" fill="#f8fafc" font-size="16" font-weight="700">Graph v1.0</text>
+  <text x="1540" y="188" text-anchor="middle" fill="#cbd5e1" font-size="13">Teams Channel</text>
+
+  <rect x="1690" y="135" width="200" height="68" rx="8" fill="#1e293b" stroke="#f87171" stroke-width="2"/>
+  <text x="1790" y="166" text-anchor="middle" fill="#f8fafc" font-size="16" font-weight="700">ARB Lead</text>
+  <text x="1790" y="188" text-anchor="middle" fill="#cbd5e1" font-size="13">Human Sign-Off</text>
+
+  <line x1="170" y1="255" x2="494" y2="255" stroke="#38bdf8" stroke-width="3" marker-end="url(#pBlue)"/>
+  <text x="200" y="244" fill="#e2e8f0" font-size="15">1. Submit PR Manifest (ServiceTier, Resources)</text>
+
+  <line x1="500" y1="315" x2="844" y2="315" stroke="#a78bfa" stroke-width="3" marker-end="url(#pBlue)"/>
+  <text x="530" y="304" fill="#e2e8f0" font-size="15">2. Score WAF 5-Pillar Rubric + Untrusted Payload</text>
+
+  <line x1="850" y1="365" x2="506" y2="365" stroke="#a78bfa" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#pBlue)"/>
+  <text x="540" y="354" fill="#cbd5e1" font-size="14">3. Structured JSON (ExecutiveSummary, Confidence)</text>
+
+  <line x1="500" y1="420" x2="1194" y2="420" stroke="#34d399" stroke-width="3" marker-end="url(#pGreen)"/>
+  <text x="540" y="409" fill="#e2e8f0" font-size="15">4. Invoke-AzRestMethod: Resource Graph + PolicyInsights Pre-Flight</text>
+
+  <rect x="140" y="470" width="1120" height="120" rx="10" fill="#064e3b" fill-opacity="0.28" stroke="#34d399" stroke-width="2"/>
+  <text x="160" y="498" fill="#34d399" font-size="16" font-weight="700">Path A: APPROVE_ARB_CONFORMANCE (WafScore &gt;= 80 &amp; Clean Pre-Flight)</text>
+  <line x1="500" y1="548" x2="176" y2="548" stroke="#34d399" stroke-width="3" marker-end="url(#pGreen)"/>
+  <text x="200" y="538" fill="#d1fae5" font-size="14">5a. Merge Permitted (~1.2s total gate latency)</text>
+
+  <rect x="140" y="615" width="1690" height="165" rx="10" fill="#7f1d1d" fill-opacity="0.28" stroke="#f87171" stroke-width="2"/>
+  <text x="160" y="645" fill="#f87171" font-size="16" font-weight="700">Path B: BLOCK_PR_MERGE_ARB_VIOLATION (Critical Violation or WafScore &lt; 80)</text>
+  <line x1="500" y1="685" x2="176" y2="685" stroke="#f87171" stroke-width="3" marker-end="url(#pRed)"/>
+  <text x="200" y="675" fill="#fee2e2" font-size="14">6a. Block PR Merge + Attach RemediationDiffs</text>
+  <line x1="500" y1="735" x2="1534" y2="735" stroke="#fbbf24" stroke-width="3" marker-end="url(#pAmber)"/>
+  <text x="640" y="725" fill="#fef3c7" font-size="14">6b. POST Teams Adaptive Card with SHA-256 Digest &amp; 30-Day TTL</text>
+  <line x1="1540" y1="762" x2="1784" y2="762" stroke="#fbbf24" stroke-width="2" marker-end="url(#pAmber)"/>
+
+  <rect x="140" y="810" width="1690" height="115" rx="10" fill="#78350f" fill-opacity="0.28" stroke="#fbbf24" stroke-width="2"/>
+  <text x="160" y="838" fill="#fbbf24" font-size="16" font-weight="700">Path C: ABSTAIN_INCOMPLETE_MANIFEST (Confidence &lt; 0.75)</text>
+  <line x1="500" y1="885" x2="1784" y2="885" stroke="#fbbf24" stroke-width="3" marker-end="url(#pAmber)"/>
+  <text x="740" y="875" fill="#fef3c7" font-size="14">7. Abstain &amp; Escalate to ARB Lead (Zero Autonomous Approval)</text>
+</svg>

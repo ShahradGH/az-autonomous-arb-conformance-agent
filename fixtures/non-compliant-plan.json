@@ -1,7 +1,45 @@
-{
-  "prNumber": 412,
-  "serviceTier": "Tier-1-Critical",
-  "publicNetworkAccess": "Enabled",
-  "zoneRedundant": false,
-  "expectedGateResult": "BLOCK_PR_MERGE_ARB_VIOLATION"
-}
+[
+  {
+    "prNumber": 412,
+    "serviceTier": "Tier-1-Critical",
+    "expectedGateResult": "BLOCK_PR_MERGE_ARB_VIOLATION",
+    "resources": [
+      {
+        "name": "stcontosopayroll01",
+        "type": "Microsoft.Storage/storageAccounts",
+        "publicNetworkAccess": "Enabled",
+        "minimumTlsVersion": "TLS1_0",
+        "usesStaticCredentials": true,
+        "zoneRedundant": false,
+        "secondaryPairedRegion": "",
+        "tags": {}
+      }
+    ]
+  },
+  {
+    "prNumber": 413,
+    "serviceTier": "Tier-1-Critical",
+    "expectedGateResult": "APPROVE_ARB_CONFORMANCE",
+    "resources": [
+      {
+        "name": "stcontosoledger02",
+        "type": "Microsoft.Storage/storageAccounts",
+        "publicNetworkAccess": "Disabled",
+        "minimumTlsVersion": "TLS1_2",
+        "usesStaticCredentials": false,
+        "zoneRedundant": true,
+        "secondaryPairedRegion": "ukwest",
+        "tags": {
+          "CostCentre": "CC-4410",
+          "DataClassification": "Confidential"
+        }
+      }
+    ]
+  },
+  {
+    "prNumber": 414,
+    "serviceTier": "",
+    "expectedGateResult": "ABSTAIN_INCOMPLETE_MANIFEST",
+    "resources": []
+  }
+]
