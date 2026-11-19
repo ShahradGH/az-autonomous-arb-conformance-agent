@@ -4,15 +4,21 @@ An AI-assisted **Architecture Review Board (ARB) Co-Worker** built in **PowerShe
 
 ---
 
-## Executive & C-Suite Brief
+## Executive & C-Suite Business Value
 
 ### Business Risk Addressed
 Traditional Architecture Review Boards (ARBs) create one of two organisational failures: either a two-week human bottleneck that stalls product delivery, or rubber-stamped Pull Requests that ship internet-exposed storage accounts, legacy TLS 1.0 endpoints, static credentials, and single-zone Tier-1 workloads into production.
 
 ### Measurable ROI & Compliance Impact
+| Governance Dimension | Traditional Manual ARB | Autonomous ARB Co-Worker |
+| :--- | :--- | :--- |
+| **PR Review Turnaround** | 5–14 business days | **< 30 seconds** per Pull Request |
+| **Exemption Integrity** | Unbounded email/wiki sign-offs | **SHA-256 manifest-bound** with mandatory 30-day TTL |
+| **Workload Least Privilege** | Periodic annual audit | **Continuous Graph v2.x** app-role inspection |
+| **AI Epistemic Safety** | Unbounded LLM guesses | **Fail-closed abstention** (`ABSTAIN_INCOMPLETE_MANIFEST`, `Confidence < 0.75`) |
+
 - **Shift-Left WAF Conformance in Seconds**: Every PR architecture manifest is scored across all five Azure Well-Architected Framework pillars before deployment, generating concrete remediation diffs and WAF justifications.
-- **Zero-Trust Cryptographic Exemptions**: When a genuine business exception is required, `graph/Send-ArbExemptionApproval.ps1` binds the exemption to a **SHA-256 manifest digest** and a mandatory 30-day TTL in Microsoft Teams—preventing silent scope creep after approval.
-- **Bounded AI Epistemic Gate**: Incomplete or ambiguous manifests trigger `ABSTAIN_INCOMPLETE_MANIFEST` (`Confidence < 0.75`), preventing the AI Co-Worker from hallucinating compliance.
+- **Zero-Trust Cryptographic Exemptions**: When a genuine business exception is required, `graph/Send-ArbExemptionApproval.ps1` and `identity/ArbIdentityGovernance.psm1` verify the approver's Entra ID ARB group membership and bind the exemption to a **SHA-256 manifest digest** with a 30-day expiry in Microsoft Teams—preventing silent scope creep after approval.
 
 ---
 
@@ -37,9 +43,15 @@ Traditional Architecture Review Boards (ARBs) create one of two organisational f
 - `ai/Invoke-ArbDesignCritique.ps1` — WAF 5-pillar scoring engine, remediation diff generator, and abstention gate.
 - `ai/waf-pillar-rubric.json` — Weighted WAF control rubric (`Security`, `Reliability`, `OperationalExcellence`, `CostOptimization`, `PerformanceEfficiency`).
 - `src/Invoke-PolicyPreflightCheck.ps1` — `Invoke-AzRestMethod` Resource Graph & Policy Insights pre-flight check.
+- `identity/ArbIdentityGovernance.psm1` — Microsoft Graph v2.x module for Entra ID ARB approver verification, least-privilege service principal auditing, and exemption audit records.
 - `graph/Send-ArbExemptionApproval.ps1` — Microsoft Graph v1.0 Teams Adaptive Card exemption dispatcher with SHA-256 digest.
 - `queries/Deployment-Conformance.kql` — Log Analytics KQL query for ARB gate telemetry.
 - `docs/ARB-EXEMPTION-PROCESS.md` — Operational runbook for cryptographic exemptions.
+
+### Chief Architect / Chief Engineer Pilot-Grafting Instructions
+1. **Entra ID Workload Identity & Graph Scopes**: Assign a User-Assigned Managed Identity to your CI/CD runner with least-privilege Microsoft Graph application permissions: `GroupMember.Read.All`, `Application.Read.All`, and `ChannelMessage.Send` (avoid `Directory.ReadWrite.All`).
+2. **Graft onto Existing PR Pipelines**: Import `identity/ArbIdentityGovernance.psm1` and invoke `Test-ArbManagedIdentityLeastPrivilege` alongside `ai/Invoke-ArbDesignCritique.ps1` in `.github/workflows/arb-pr-check.yml` or Azure Pipelines—zero Bicep or Terraform changes required.
+3. **Verify Approver Authority Before Exemption**: Call `Get-ArbApproverDirectoryState` before dispatching any Teams Adaptive Card so only active, non-guest Enterprise Architects in your ARB Entra group can authorise 30-day exemptions.
 
 ### Quickstart: Run WAF Critique & Pester 6.x Matrix
 ```powershell

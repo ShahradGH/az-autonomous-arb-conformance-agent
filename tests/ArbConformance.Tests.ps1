@@ -116,4 +116,79 @@ Describe 'Autonomous ARB Co-Worker - WAF Critique, Preflight & Graph Exemption M
             }
         }
     }
+
+    Context 'Identity & Microsoft Graph v2.x ARB Governance Module' {
+        BeforeAll {
+            Import-Module (Join-Path $script:RepoRoot 'identity/ArbIdentityGovernance.psd1') -Force
+        }
+
+        It 'Authorises an active non-guest member of the ARB Entra ID group' {
+            $mockGraph = {
+                param($method, $uri, $body)
+                if ($uri -match '/users/') {
+                    return [PSCustomObject]@{
+                        id                = 'usr-001'
+                        userPrincipalName = 'alex.morgan@contoso.com'
+                        displayName       = 'Alex Morgan'
+                        accountEnabled    = $true
+                        userType          = 'Member'
+                    }
+                }
+                return [PSCustomObject]@{
+                    value = @([PSCustomObject]@{ id = 'usr-001'; userPrincipalName = 'alex.morgan@contoso.com' })
+                }
+            }
+
+            $res = Get-ArbApproverDirectoryState -ApproverUpn 'alex.morgan@contoso.com' -ArbGroupId 'grp-arb-01' -GraphInvoker $mockGraph
+            $res.IsAuthorised | Should -BeTrue
+            $res.InArbGroup | Should -BeTrue
+        }
+
+        It 'Rejects guest or disabled accounts from approving ARB exemptions' {
+            $mockGraph = {
+                param($method, $uri, $body)
+                if ($uri -match '/users/') {
+                    return [PSCustomObject]@{
+                        id                = 'usr-002'
+                        userPrincipalName = 'guest.ext@contoso.com'
+                        displayName       = 'External Guest'
+                        accountEnabled    = $true
+                        userType          = 'Guest'
+                    }
+                }
+                return [PSCustomObject]@{
+                    value = @([PSCustomObject]@{ id = 'usr-002'; userPrincipalName = 'guest.ext@contoso.com' })
+                }
+            }
+
+            $res = Get-ArbApproverDirectoryState -ApproverUpn 'guest.ext@contoso.com' -ArbGroupId 'grp-arb-01' -GraphInvoker $mockGraph
+            $res.IsAuthorised | Should -BeFalse
+        }
+
+        It 'Flags forbidden high-privilege Graph app role assignments on workload identities' {
+            $mockGraph = {
+                param($method, $uri, $body)
+                return [PSCustomObject]@{
+                    value = @(
+                        [PSCustomObject]@{ appRoleId = '19dbc75e-c2e2-444c-a770-ec69d8559fc7' }
+                    )
+                }
+            }
+
+            $res = Test-ArbManagedIdentityLeastPrivilege -ServicePrincipalId 'sp-001' -GraphInvoker $mockGraph
+            $res.LeastPrivilegePass | Should -BeFalse
+            $res.ViolationCount | Should -Be 1
+        }
+
+        It 'Dispatches SHA-256 exemption audit record to Teams channel' {
+            $mockGraph = {
+                param($method, $uri, $body)
+                return [PSCustomObject]@{ id = 'msg-audit-01' }
+            }
+
+            $res = New-ArbExemptionAuditRecord -TeamId 't-1' -ChannelId 'c-1' -PrNumber 'PR-402' -ManifestSha256 ('a' * 64) -ApproverUpn 'alex.morgan@contoso.com' -GraphInvoker $mockGraph
+            $res.Dispatched | Should -BeTrue
+            $res.MessageId | Should -Be 'msg-audit-01'
+        }
+    }
 }
